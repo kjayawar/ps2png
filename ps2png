@@ -1,0 +1,8 @@
+#!/bin/bash
+PAGES=$(gs -o /dev/null -sDEVICE=bbox plot.ps 2>&1 | grep HiResBoundingBox | wc -l)
+
+for PAGE in $(seq 1 $PAGES);
+do
+	gs -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m -dGraphicsAlphaBits=4 -dFirstPage=$PAGE -dLastPage=$PAGE -sOutputFile="$PAGE.png" "plot.ps"
+	convert -rotate 90 $PAGE.png $PAGE.png
+done
